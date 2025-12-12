@@ -19,7 +19,7 @@
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -35,6 +35,7 @@
             pointer-events: none;
             opacity: 0;
             animation: float-up 4s ease-in infinite;
+            z-index: 1;
         }
 
         @keyframes float-up {
@@ -87,9 +88,131 @@
             }
         }
 
+        .photo-container {
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .photo-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            display: inline-block;
+        }
+
+        .photo-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.3),
+                0 0 60px rgba(255, 255, 255, 0.2),
+                inset 0 0 30px rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: floatPhoto 3s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes floatPhoto {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .photo-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        .photo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .sparkles {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .sparkle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { bottom: 15%; left: 25%; animation-delay: 1s; }
+        .sparkle:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 1.5s; }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 700;
             color: #fff;
             margin-bottom: 1rem;
@@ -115,7 +238,7 @@
             margin-bottom: 2.5rem;
             font-weight: 300;
             line-height: 1.6;
-            animation: fadeIn 1s ease-out 0.5s both;
+            animation: fadeIn 1s ease-out 0.7s both;
         }
 
         @keyframes fadeIn {
@@ -142,7 +265,7 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            animation: fadeIn 1s ease-out 1s both;
+            animation: fadeIn 1s ease-out 1.2s both;
         }
 
         .next-button::before {
@@ -167,6 +290,62 @@
 
         .next-button:active {
             transform: translateY(-2px) scale(1.02);
+        }
+
+        .upload-section {
+            margin-top: 1.5rem;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        .upload-label {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .upload-label:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        #photo-upload {
+            display: none;
+        }
+
+        .upload-section {
+            margin-top: 1.5rem;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        .upload-label {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .upload-label:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        #photo-upload {
+            display: none;
         }
 
         .audio-controls {
@@ -230,6 +409,16 @@
                 padding: 3rem 2rem;
             }
 
+            .photo-circle,
+            .photo-wrapper {
+                width: 160px;
+                height: 160px;
+            }
+
+            h1 {
+                font-size: clamp(1.8rem, 5vw, 3rem);
+            }
+
             .next-button {
                 padding: 1rem 2rem;
                 font-size: 1rem;
@@ -251,10 +440,25 @@
                 padding: 2rem 1.5rem;
             }
 
+            .photo-circle,
+            .photo-wrapper {
+                width: 140px;
+                height: 140px;
+            }
+
             .audio-controls {
                 flex-direction: column;
                 padding: 10px;
                 gap: 10px;
+            }
+
+            .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .upload-label {
+                font-size: 0.85rem;
+                padding: 0.7rem 1.5rem;
             }
         }
     </style>
@@ -262,11 +466,26 @@
 <body>
     <div class="container">
         <div class="content-box">
-            <h1>Happy Birthday,<br>My Gurl! 🎉🎂</h1>
+            <div class="photo-container">
+                <div class="photo-wrapper">
+                    <div class="photo-circle" id="photoCircle">
+                        <img src="YOUR_GITHUB_IMAGE_URL_HERE" alt="Birthday Photo" id="mainPhoto">
+                    </div>
+                    <div class="sparkles">
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <h1>Happy Birthday,<br>My Gurl! 🎉</h1>
             <p class="subtitle">
                 Hey Bestie! Ready for your special surprise?<br>
                 Click to continue on this magical journey!
             </p>
+
             <button class="next-button" onclick="goToNextPage()">
                 Let's Go! ✨
             </button>
